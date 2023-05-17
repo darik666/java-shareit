@@ -37,7 +37,7 @@ public class UserMemoryDao implements UserDao {
      */
     @Override
     public User getUserById(Integer id) {
-        log.info("Получение пользователя с id " + id);
+        log.info("Получение пользователя с id = {}", id);
         Optional<User> user = Optional.ofNullable(userList.get(id));
         return user.orElseThrow(() -> new UserNotFoundException(
                 String.format("Пользователь с id %d не найден", id)));
@@ -55,12 +55,12 @@ public class UserMemoryDao implements UserDao {
         boolean emailExists = userList.values().stream()
                 .anyMatch(u -> u.getEmail().equals(user.getEmail()));
         if (emailExists) {
-            log.warn("Данный email уже существует: " + user.getEmail());
+            log.warn("Данный email: {} уже существует: ", user.getEmail());
             throw new EmailExistsException("Данный email уже существует: " + user.getEmail());
         }
         user.setId(++id);
         userList.put(user.getId(), user);
-        log.info("Создание пользователя: " + user);
+        log.info("Создание пользователя: {}", user);
         return user;
     }
 
@@ -84,12 +84,12 @@ public class UserMemoryDao implements UserDao {
                     .filter(u -> !u.getId().equals(existingUser.getId()))
                     .anyMatch(u -> u.getEmail().equals(newEmail));
             if (emailExistsInOtherUsers) {
-                log.warn("Данный email уже существует: " + newEmail);
+                log.warn("Данный email: {} уже существует", newEmail);
                 throw new EmailExistsException("Данный email уже существует: " + newEmail);
             }
             existingUser.setEmail(newEmail);
         }
-        log.info("Обновление пользователя: " + existingUser);
+        log.info("Обновление пользователя: ", existingUser);
         userList.put(user.getId(), existingUser);
         return existingUser;
     }
@@ -100,10 +100,10 @@ public class UserMemoryDao implements UserDao {
     @Override
     public void deleteUser(Integer id) {
         if (userList.containsKey(id)) {
-            log.info("Удаление пользователя с id: " + id);
+            log.info("Удаление пользователя с id: {}", id);
             userList.remove(id);
         } else {
-            log.warn("Пользователь с данным id не найден: " + id);
+            log.warn("Пользователь с данным id = {} не найден: ", id);
             throw new UserNotFoundException("Пользователь с данным id не найден: " + id);
         }
     }

@@ -1,5 +1,6 @@
 package ru.practicum.shareit.item.dao;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.item.exception.ItemNotFoundException;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 /**
  * Хранилище вещей в памяти
  */
+@Slf4j
 @Primary
 @Repository
 public class ItemMemoryDao implements ItemDao {
@@ -26,6 +28,7 @@ public class ItemMemoryDao implements ItemDao {
      */
     @Override
     public List<Item> getItems(Integer ownerId) {
+        log.info("Получение списка вещей пользователя с id = {}", ownerId);
         return itemList.values().stream()
                 .filter(item -> item.getOwner().getId().equals(ownerId))
                 .collect(Collectors.toList());
@@ -36,6 +39,7 @@ public class ItemMemoryDao implements ItemDao {
      */
     @Override
     public Item getItemById(Integer id) {
+        log.info("Получение вещи по id = {}", id);
         Optional<Item> item = Optional.ofNullable(itemList.get(id));
         return item.orElseThrow(() -> new ItemNotFoundException(
                 String.format("Вещь с id %d не найдена", id)));
@@ -47,6 +51,7 @@ public class ItemMemoryDao implements ItemDao {
     @Override
     public Item postItem(Item item) {
         item.setId(++id);
+        log.info("Создание вещи {}", item);
         itemList.put(id, item);
         return item;
     }
@@ -58,9 +63,11 @@ public class ItemMemoryDao implements ItemDao {
     public Item updateItem(Item item) {
         Item existingItem = itemList.get(item.getId());
         if (existingItem == null) {
+            log.warn("Вещь c id {} не найдена: ", item.getId());
             throw new ItemNotFoundException("Вещь с данным id не найдена: " + item.getId());
         }
         if (!existingItem.getOwner().equals(item.getOwner())) {
+            log.warn("Только владельцы вещи могут обновлять ее");
             throw new UnauthorizedAccessException("Только владельцы вещи могут обновлять ее");
         }
         if (item.getName() != null) {
@@ -72,6 +79,8 @@ public class ItemMemoryDao implements ItemDao {
         if (item.getAvailable() != null) {
             existingItem.setAvailable(item.getAvailable());
         }
+        log.info("Обновление вещи: {}", existingItem);
+        itemList.put(existingItem.getId(), existingItem);
         return existingItem;
     }
 
@@ -81,8 +90,10 @@ public class ItemMemoryDao implements ItemDao {
     @Override
     public void deleteItem(Integer id) {
         if (itemList.containsKey(id)) {
+            log.info("Удаление вещи по id = {}", id);
             itemList.remove(id);
         } else {
+            log.warn("Вещь с id {} не найдена", id);
             throw new ItemNotFoundException(String.format("Вещь с id %d не найдена", id));
         }
     }
@@ -96,6 +107,7 @@ public class ItemMemoryDao implements ItemDao {
             return Collections.emptyList();
         }
         String searchText = text.toLowerCase();
+        log.info("Поиск вещи по тексту: {}", text);
         return itemList.values().stream()
                 .filter(item -> item.getName().toLowerCase().contains(searchText)
                         || item.getDescription().toLowerCase().contains(searchText))
