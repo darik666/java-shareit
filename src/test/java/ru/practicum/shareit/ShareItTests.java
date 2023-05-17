@@ -54,6 +54,7 @@ class ShareItTests {
 		assertEquals("user", createdUser.getName());
 		assertEquals("user@user.com", createdUser.getEmail());
 	}
+
 	@Test
 	void getAllUsers() {
 		createUser1();
@@ -176,8 +177,7 @@ class ShareItTests {
 	@Test
 	void updateItem_Successful() {
 		createItem1();
-
-		ItemDto updatedItem =itemController.updateItem(new ItemDto(null, "Дреллер",
+		ItemDto updatedItem = itemController.updateItem(new ItemDto(null, "Дреллер",
 				"Простейший дреллер", false, null, null), 1, 1);
 
 		assertEquals("Простейший дреллер", updatedItem.getDescription());
