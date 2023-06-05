@@ -30,6 +30,7 @@ public class BookingMapper {
 
     public static BookingResponseDto toBookingResponseDto(Booking booking) {
         BookingResponseDto bookingResponseDto = new BookingResponseDto();
+        bookingResponseDto.setId(booking.getId());
         bookingResponseDto.setStart(booking.getStart());
         bookingResponseDto.setEnd(booking.getEnd());
         bookingResponseDto.setItem(booking.getItem());

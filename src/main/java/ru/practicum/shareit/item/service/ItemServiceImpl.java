@@ -38,7 +38,6 @@ public class ItemServiceImpl implements ItemService {
     /**
      * Получение вещей
      */
-    @Transactional
     @Override
     public List<ItemDtoWithBooking> getItems(Long ownerId) {
         List<Item> items = itemRepository.findByOwnerId(ownerId);
@@ -81,7 +80,6 @@ public class ItemServiceImpl implements ItemService {
     /**
      * Получение вещи по id
      */
-    @Transactional
     @Override
     public ItemDtoWithBooking getItemById(Long itemId, Long ownerId) {
         Item item = itemRepository.findById(itemId).get();
@@ -148,7 +146,6 @@ public class ItemServiceImpl implements ItemService {
     /**
      * Поиск вещей
      */
-    @Transactional
     @Override
     public List<ItemDto> searchItems(String text) {
         if (text.isBlank()) {
@@ -176,7 +173,6 @@ public class ItemServiceImpl implements ItemService {
                     .orElseThrow(() -> new UserNotFoundException("Пользователь не найден"));
             Item item = itemRepository.findById(itemId)
                     .orElseThrow(() -> new ItemNotFoundException("Вещь не найдена"));
-
             comment.setAuthor(user);
             comment.setItem(item);
             comment.setCreateTime(LocalDateTime.now());

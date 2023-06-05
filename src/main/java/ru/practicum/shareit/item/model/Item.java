@@ -1,9 +1,7 @@
 package ru.practicum.shareit.item.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import ru.practicum.shareit.user.model.User;
 
 import javax.persistence.*;
@@ -11,9 +9,10 @@ import javax.persistence.*;
 /**
  * Модель вещи
  */
-@Data
 @Entity
 @Table(name = "items")
+@Getter
+@Setter
 @AllArgsConstructor
 @RequiredArgsConstructor
 @JsonIgnoreProperties("hibernateLazyInitializer")

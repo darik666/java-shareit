@@ -3,7 +3,7 @@ package ru.practicum.shareit.booking;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.booking.dto.BookingDto;
-import ru.practicum.shareit.booking.model.Booking;
+import ru.practicum.shareit.booking.dto.BookingResponseDto;
 import ru.practicum.shareit.booking.service.BookingService;
 
 import javax.validation.Valid;
@@ -23,8 +23,8 @@ public class BookingController {
      * Получение всех бронирований
      */
     @GetMapping
-    public List<Booking> getAllBookings(@RequestHeader(value = "X-Sharer-User-Id", required = true) Long ownerId,
-                                        @RequestParam(required = false, defaultValue = "ALL") String state) {
+    public List<BookingResponseDto> getAllBookings(@RequestHeader(value = "X-Sharer-User-Id", required = true) Long ownerId,
+                                                   @RequestParam(required = false, defaultValue = "ALL") String state) {
         return bookingService.getAllBookings(ownerId, state);
     }
 
@@ -32,7 +32,7 @@ public class BookingController {
      * Получение бронирования по id
      */
     @GetMapping("/{bookingId}")
-    public Booking getBooking(@RequestHeader(value = "X-Sharer-User-Id", required = true) Long ownerId,
+    public BookingResponseDto getBooking(@RequestHeader(value = "X-Sharer-User-Id", required = true) Long ownerId,
                               @PathVariable Long bookingId) {
         return bookingService.getBooking(ownerId, bookingId);
     }
@@ -41,7 +41,7 @@ public class BookingController {
      * Сохранение бронирования
      */
     @PostMapping
-    public Booking postBooking(@Valid @RequestBody BookingDto bookingDto,
+    public BookingResponseDto postBooking(@Valid @RequestBody BookingDto bookingDto,
                                @RequestHeader(value = "X-Sharer-User-Id", required = true) Long ownerId) {
         return bookingService.postBooking(bookingDto, ownerId);
     }
@@ -50,7 +50,7 @@ public class BookingController {
      * Подтверждение бронирования
      */
     @PatchMapping("/{bookingId}")
-    public Booking approveBooking(@RequestHeader(value = "X-Sharer-User-Id", required = true) Long ownerId,
+    public BookingResponseDto approveBooking(@RequestHeader(value = "X-Sharer-User-Id", required = true) Long ownerId,
                                   @PathVariable Long bookingId,
                                   @RequestParam Boolean approved) {
         return bookingService.approveBooking(ownerId, bookingId, approved);
@@ -60,9 +60,9 @@ public class BookingController {
      * Получение всех бронирований владельца
      */
     @GetMapping("/owner")
-    public List<Booking> getAllOwnerBookings(
+    public List<BookingResponseDto> getAllOwnerBookings(
             @RequestHeader(value = "X-Sharer-User-Id", required = true) Long ownerId,
-            @RequestParam(required = false, defaultValue = "ALL") String state) {
+            @RequestParam(defaultValue = "ALL") String state) {
         return bookingService.getAllOwnerBookings(ownerId, state);
     }
 }

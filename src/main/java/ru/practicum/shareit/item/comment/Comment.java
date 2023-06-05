@@ -1,8 +1,6 @@
 package ru.practicum.shareit.item.comment;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
@@ -15,8 +13,9 @@ import java.time.LocalDateTime;
 /**
  * Класс модели отзывов
  */
-@Data
 @Entity
+@Getter
+@Setter
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Table(name = "comments")

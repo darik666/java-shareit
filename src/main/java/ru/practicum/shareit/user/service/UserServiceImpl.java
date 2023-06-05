@@ -26,7 +26,6 @@ public class UserServiceImpl implements UserService {
     /**
      * Получение пользователей
      */
-    @Transactional
     @Override
     public List<UserDto> getUsers() {
         log.debug("Получение списка всех пользователей");
@@ -38,7 +37,6 @@ public class UserServiceImpl implements UserService {
     /**
      * Получение пользователя по id
      */
-    @Transactional
     @Override
     public UserDto getUserById(Long id) {
         log.debug("Получение пользователя с id = " + id);

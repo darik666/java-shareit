@@ -1,7 +1,7 @@
 package ru.practicum.shareit.booking.service;
 
 import org.springframework.stereotype.Component;
-import ru.practicum.shareit.booking.model.Booking;
+import ru.practicum.shareit.booking.dto.BookingResponseDto;
 import ru.practicum.shareit.booking.dto.BookingDto;
 
 import java.util.List;
@@ -12,13 +12,13 @@ import java.util.List;
 @Component
 public interface BookingService {
 
-    Booking getBooking(Long ownerId, Long bookingId);
+    BookingResponseDto getBooking(Long ownerId, Long bookingId);
 
-    List<Booking> getAllBookings(Long ownerId, String state);
+    List<BookingResponseDto> getAllBookings(Long ownerId, String state);
 
-    Booking postBooking(BookingDto bookingDto, Long ownerId);
+    BookingResponseDto postBooking(BookingDto bookingDto, Long ownerId);
 
-    Booking approveBooking(Long ownerId, Long bookingId, Boolean approved);
+    BookingResponseDto approveBooking(Long ownerId, Long bookingId, Boolean approved);
 
-    List<Booking> getAllOwnerBookings(Long ownerId, String state);
+    List<BookingResponseDto> getAllOwnerBookings(Long ownerId, String state);
 }

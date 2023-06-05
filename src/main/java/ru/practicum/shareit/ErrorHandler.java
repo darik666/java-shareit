@@ -50,13 +50,6 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public String unHandledException(final Exception e) {
-        log.debug("Получен статус 500 Internal Server Error {}", e.getMessage(), e);
-        return e.getMessage();
-    }
-
-    @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String methodArgumentNotValidException(final MethodArgumentNotValidException e) {
         log.debug("Получен статус 400 Bad Request {}", e.getMessage(), e);
@@ -102,6 +95,13 @@ public class ErrorHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String deniedCommentingException(final DeniedCommentingException e) {
         log.debug("Получен статус 400 Not Found {}", e.getMessage(), e);
+        return e.getMessage();
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public String unHandledException(final Exception e) {
+        log.debug("Получен статус 500 Internal Server Error {}", e.getMessage(), e);
         return e.getMessage();
     }
 }

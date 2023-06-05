@@ -1,18 +1,17 @@
 package ru.practicum.shareit.user.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 /**
  * Модель пользователей
  */
-@Data
 @Entity
 @Table(name = "users", schema = "public")
+@Getter
+@Setter
 @AllArgsConstructor
 @RequiredArgsConstructor
 @JsonIgnoreProperties("hibernateLazyInitializer")
