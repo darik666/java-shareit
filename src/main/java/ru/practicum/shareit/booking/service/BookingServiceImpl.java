@@ -100,7 +100,7 @@ public class BookingServiceImpl implements BookingService {
             log.warn("Вещь недоступна для бронирования");
             throw new IllegalArgumentException("Вещь недоступна для бронирования");
         }
-        if (item.getOwner().getId() == ownerId) {
+        if (item.getOwner().getId().equals(ownerId)) {
             log.warn("Нельзя бронировать вещь у себя");
             throw new UnauthorizedAccessException("Нельзя бронировать вещь у себя");
         }
