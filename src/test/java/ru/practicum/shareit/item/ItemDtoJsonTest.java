@@ -54,11 +54,11 @@ public class ItemDtoJsonTest {
 
         assertThat(violations).hasSize(3);
         assertThat(violations).anyMatch(violation -> violation.getPropertyPath().toString().equals("available")
-                && violation.getMessage().equals("не должно равняться null"));
+                && violation.getMessage().equals("must not be null"));
         assertThat(violations).anyMatch(violation -> violation.getPropertyPath().toString().equals("name")
-                && violation.getMessage().equals("не должно быть пустым"));
+                && violation.getMessage().equals("must not be empty"));
         assertThat(violations).anyMatch(violation -> violation.getPropertyPath().toString().equals("description")
-                && violation.getMessage().equals("не должно быть пустым"));
+                && violation.getMessage().equals("must not be empty"));
     }
 
     @Test
@@ -78,8 +78,8 @@ public class ItemDtoJsonTest {
 
         assertThat(violations).hasSize(2);
         assertThat(violations).anyMatch(violation -> violation.getPropertyPath().toString().equals("name")
-                && violation.getMessage().equals("размер должен находиться в диапазоне от 0 до 50"));
+                && violation.getMessage().equals("size must be between 0 and 50"));
         assertThat(violations).anyMatch(violation -> violation.getPropertyPath().toString().equals("description")
-                && violation.getMessage().equals("размер должен находиться в диапазоне от 0 до 200"));
+                && violation.getMessage().equals("size must be between 0 and 200"));
     }
 }

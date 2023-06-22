@@ -66,6 +66,6 @@ public class ItemRequestDtoJsonTest {
 
         assertThat(violations).hasSize(1);
         assertThat(violations).anyMatch(violation -> violation.getPropertyPath().toString().equals("description")
-                && violation.getMessage().equals("не должно быть пустым"));
+                && violation.getMessage().equals("must not be blank"));
     }
 }

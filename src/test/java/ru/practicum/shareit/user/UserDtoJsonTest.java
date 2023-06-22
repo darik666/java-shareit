@@ -49,7 +49,7 @@ public class UserDtoJsonTest {
 
         assertThat(violations).hasSize(1);
         assertThat(violations).anyMatch(violation -> violation.getPropertyPath().toString().equals("email")
-                && violation.getMessage().equals("должно иметь формат адреса электронной почты"));
+                && violation.getMessage().equals("must be a well-formed email address"));
     }
 
     @Test
@@ -65,6 +65,6 @@ public class UserDtoJsonTest {
 
         assertThat(violations).hasSize(1);
         assertThat(violations).anyMatch(violation -> violation.getPropertyPath().toString().equals("email")
-                && violation.getMessage().equals("не должно быть пустым"));
+                && violation.getMessage().equals("must not be blank"));
     }
 }

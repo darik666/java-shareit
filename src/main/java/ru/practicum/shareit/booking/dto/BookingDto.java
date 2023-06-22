@@ -15,16 +15,16 @@ import java.time.LocalDateTime;
 public class BookingDto {
     private Long id;
 
-    @NotNull
+    @NotNull(message = "must not be null")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @FutureOrPresent(message = "Начало бронирования не может быть в прошлом")
     private LocalDateTime start;
 
-    @NotNull
+    @NotNull(message = "must not be null")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @FutureOrPresent(message = "Конец бронирования не может быть в прошлом")
     private LocalDateTime end;
 
-    @NotNull(message = "itemId не может быть пустым")
+    @NotNull(message = "must not be null")
     private Long itemId;
 }

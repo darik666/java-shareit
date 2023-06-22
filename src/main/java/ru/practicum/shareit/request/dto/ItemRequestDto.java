@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ItemRequestDto {
     private Long id;
-    @NotBlank
+    @NotBlank(message = "must not be blank")
     private String description;
     private User requestor;
     private LocalDateTime created;

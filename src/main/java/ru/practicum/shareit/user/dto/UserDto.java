@@ -17,8 +17,8 @@ public class UserDto {
     private Long id;
     private String name;
 
-    @Email(groups = {UserDto.OnCreate.class})
-    @NotBlank(groups = {UserDto.OnCreate.class})
+    @Email(groups = {UserDto.OnCreate.class}, message = "must be a well-formed email address")
+    @NotBlank(groups = {UserDto.OnCreate.class}, message = "must not be blank")
     private String email;
 
     public interface OnCreate {

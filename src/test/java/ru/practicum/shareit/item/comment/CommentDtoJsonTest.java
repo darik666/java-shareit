@@ -58,7 +58,7 @@ public class CommentDtoJsonTest {
 
         assertThat(violations).hasSize(1);
         assertThat(violations).anyMatch(violation -> violation.getPropertyPath().toString().equals("text")
-                && violation.getMessage().equals("не должно быть пустым"));
+                && violation.getMessage().equals("must not be blank"));
     }
 
     @Test
@@ -82,6 +82,6 @@ public class CommentDtoJsonTest {
 
         assertThat(violations).hasSize(1);
         assertThat(violations).anyMatch(violation -> violation.getPropertyPath().toString().equals("text")
-                && violation.getMessage().equals("размер должен находиться в диапазоне от 0 до 500"));
+                && violation.getMessage().equals("size must be between 0 and 500"));
     }
 }

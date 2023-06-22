@@ -52,10 +52,10 @@ public class BookingDtoJsonTest {
 
         assertThat(violations).hasSize(3);
         assertThat(violations).anyMatch(violation -> violation.getPropertyPath().toString().equals("start")
-                && violation.getMessage().equals("не должно равняться null"));
+                && violation.getMessage().equals("must not be null"));
         assertThat(violations).anyMatch(violation -> violation.getPropertyPath().toString().equals("end")
-                && violation.getMessage().equals("не должно равняться null"));
+                && violation.getMessage().equals("must not be null"));
         assertThat(violations).anyMatch(violation -> violation.getPropertyPath().toString().equals("itemId")
-                && violation.getMessage().equals("itemId не может быть пустым"));
+                && violation.getMessage().equals("must not be null"));
     }
 }
