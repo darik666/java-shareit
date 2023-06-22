@@ -1,17 +1,20 @@
 package ru.practicum.shareit.booking;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.BookingResponseDto;
 import ru.practicum.shareit.booking.service.BookingService;
 
 import javax.validation.Valid;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 /**
  * Контроллер бронирований
  */
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/bookings")
@@ -23,9 +26,12 @@ public class BookingController {
      * Получение всех бронирований
      */
     @GetMapping
-    public List<BookingResponseDto> getAllBookings(@RequestHeader(value = "X-Sharer-User-Id", required = true) Long ownerId,
-                                                   @RequestParam(required = false, defaultValue = "ALL") String state) {
-        return bookingService.getAllBookings(ownerId, state);
+    public List<BookingResponseDto> getAllBookings(
+            @RequestHeader(value = "X-Sharer-User-Id", required = true) Long ownerId,
+            @RequestParam(required = false, defaultValue = "ALL") String state,
+            @RequestParam(required = false, defaultValue = "0") @PositiveOrZero Integer from,
+            @RequestParam(required = false, defaultValue = "10") Integer size) {
+        return bookingService.getAllBookings(ownerId, state, from, size);
     }
 
     /**
@@ -62,7 +68,9 @@ public class BookingController {
     @GetMapping("/owner")
     public List<BookingResponseDto> getAllOwnerBookings(
             @RequestHeader(value = "X-Sharer-User-Id", required = true) Long ownerId,
-            @RequestParam(defaultValue = "ALL") String state) {
-        return bookingService.getAllOwnerBookings(ownerId, state);
+            @RequestParam(defaultValue = "ALL") String state,
+            @RequestParam(required = false, defaultValue = "0") @PositiveOrZero Integer from,
+            @RequestParam(required = false, defaultValue = "10") Integer size) {
+        return bookingService.getAllOwnerBookings(ownerId, state, from, size);
     }
 }

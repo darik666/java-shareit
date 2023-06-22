@@ -25,16 +25,19 @@ public class ItemController {
      */
     @GetMapping
     public List<ItemDtoWithBooking> getItems(
-            @RequestHeader(value = "X-Sharer-User-Id", required = true) Long ownerId) {
-        return itemService.getItems(ownerId);
+            @RequestHeader(value = "X-Sharer-User-Id", required = true) Long ownerId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return itemService.getItems(ownerId, page, size);
     }
 
     /**
      * Получение вещи по id
      */
     @GetMapping("/{id}")
-    public ItemDtoWithBooking getItemById(@PathVariable Long id,
-                                          @RequestHeader(value = "X-Sharer-User-Id", required = true) Long ownerId) {
+    public ItemDtoWithBooking getItemById(
+            @PathVariable Long id,
+            @RequestHeader(value = "X-Sharer-User-Id", required = true) Long ownerId) {
         return itemService.getItemById(id, ownerId);
     }
 
@@ -70,8 +73,11 @@ public class ItemController {
      * Поиск вещей
      */
     @GetMapping("/search")
-    public List<ItemDto> searchItems(@RequestParam(required = true) String text) {
-        return itemService.searchItems(text);
+    public List<ItemDto> searchItems(
+            @RequestParam(required = true) String text,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return itemService.searchItems(text, page, size);
     }
 
     /**

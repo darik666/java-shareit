@@ -18,6 +18,6 @@ public class CommentDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime created;
     @NotBlank
-    @Size(max = 2000)
+    @Size(max = 500)
     private String text;
 }
