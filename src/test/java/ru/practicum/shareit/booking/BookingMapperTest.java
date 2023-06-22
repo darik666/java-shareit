@@ -33,6 +33,7 @@ public class BookingMapperTest {
         assertThat(bookingDto.getStart()).isEqualTo(booking.getStart());
         assertThat(bookingDto.getEnd()).isEqualTo(booking.getEnd());
     }
+
     @Test
     public void toBookingTest() {
         BookingDto bookingDto = new BookingDto(
