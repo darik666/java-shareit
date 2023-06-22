@@ -17,7 +17,6 @@ import ru.practicum.shareit.item.service.ItemService;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.*;

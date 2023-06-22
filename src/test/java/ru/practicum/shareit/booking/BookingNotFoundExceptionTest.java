@@ -2,7 +2,6 @@ package ru.practicum.shareit.booking;
 
 import org.junit.jupiter.api.Test;
 import ru.practicum.shareit.booking.exception.BookingNotFoundException;
-import ru.practicum.shareit.item.exception.ItemNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

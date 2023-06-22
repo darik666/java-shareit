@@ -106,8 +106,8 @@ public class ItemRequestServiceImplTest {
         List<ItemRequest> mockedRequests = List.of(itemRequest1, itemRequest2);
 
         when(userRepository.findById(user1.getId())).thenReturn(Optional.ofNullable(user1));
-        when(itemRequestRepository.
-                findItemRequestsByExcludingRequestorId(user1.getId())).thenReturn(mockedRequests);
+        when(itemRequestRepository
+                .findItemRequestsByExcludingRequestorId(user1.getId())).thenReturn(mockedRequests);
 
         List<ItemRequestDto> resultList = itemRequestService.getItemRequests(null, null, user1.getId());
 

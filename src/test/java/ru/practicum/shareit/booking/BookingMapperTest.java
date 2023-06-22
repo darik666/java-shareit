@@ -17,7 +17,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class BookingMapperTest {
 
-
     @Test
     public void toBookingDtoTest() {
         User user = new User(1L, "name", "name@email.com");
