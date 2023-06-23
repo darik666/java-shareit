@@ -9,8 +9,7 @@ import javax.validation.constraints.Size;
 /**
  * DTO модель вещей
  */
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ItemDto {

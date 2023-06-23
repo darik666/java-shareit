@@ -10,8 +10,7 @@ import java.util.List;
 /**
  * DTO модель вещей c бронированиями
  */
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ItemDtoWithBooking {

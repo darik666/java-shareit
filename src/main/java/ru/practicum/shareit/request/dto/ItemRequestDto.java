@@ -11,8 +11,7 @@ import java.util.List;
 /**
  * DTO модель запроса вещей
  */
-@Getter
-@Setter
+@Data
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class ItemRequestDto {

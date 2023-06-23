@@ -8,8 +8,7 @@ import javax.validation.constraints.NotBlank;
 /**
  * DTO модель пользователей
  */
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDto {

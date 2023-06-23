@@ -5,8 +5,7 @@ import lombok.*;
 /**
  * DTO модель бронирования
  */
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class BookingDtoForItem {

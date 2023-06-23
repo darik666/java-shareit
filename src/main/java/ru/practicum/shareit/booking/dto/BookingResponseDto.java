@@ -10,8 +10,7 @@ import java.time.LocalDateTime;
 /**
  * DTO модель бронирования
  */
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class BookingResponseDto {

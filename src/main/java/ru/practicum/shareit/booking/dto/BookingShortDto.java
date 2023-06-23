@@ -8,8 +8,7 @@ import ru.practicum.shareit.user.model.User;
 /**
  * DTO модель бронирования
  */
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class BookingShortDto {
