@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.request.ItemRequestRepository;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
 import ru.practicum.shareit.request.exception.ItemRequestNotFoundException;
@@ -19,6 +20,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Сервисный класс запросов вещей
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -27,6 +31,9 @@ public class ItemRequestServiceImpl implements ItemRequestService {
     private final ItemRequestRepository itemRequestRepository;
     private final UserRepository userRepository;
 
+    /**
+     * Получение запросов вещей
+     */
     @Override
     public List<ItemRequestDto> getItemRequests(Long from, Long size, Long requestorId) {
         findUser(requestorId);
@@ -50,6 +57,9 @@ public class ItemRequestServiceImpl implements ItemRequestService {
         return itemRequestDtos;
     }
 
+    /**
+     * Получение запросов пользователя
+     */
     @Override
     public List<ItemRequestDto> getItemRequestsByRequestor(Long requestorId) {
         findUser(requestorId);
@@ -61,6 +71,10 @@ public class ItemRequestServiceImpl implements ItemRequestService {
         return itemRequestDtos;
     }
 
+    /**
+     * Создание запроса вещи
+     */
+    @Transactional
     @Override
     public ItemRequestDto postItemRequest(ItemRequestDto itemRequestDto, Long requestorId) {
         User user = findUser(requestorId);
@@ -71,6 +85,9 @@ public class ItemRequestServiceImpl implements ItemRequestService {
         return ItemRequestMapper.toItemRequestDto(itemRequest);
     }
 
+    /**
+     * Получение запроса по id
+     */
     @Override
     public ItemRequestDto getItemRequestById(Long requestId, Long requestorId) {
         findUser(requestorId);
@@ -80,6 +97,9 @@ public class ItemRequestServiceImpl implements ItemRequestService {
         return ItemRequestMapper.toItemRequestDto(request);
     }
 
+    /**
+     * Проверка пользователя
+     */
     public User findUser(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("Пользователь с данным id не найден"));

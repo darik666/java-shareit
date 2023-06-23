@@ -11,6 +11,9 @@ import ru.practicum.shareit.request.model.ItemRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Маппер запросов
+ */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ItemRequestMapper {
 

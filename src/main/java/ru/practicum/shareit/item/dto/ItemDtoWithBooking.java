@@ -1,15 +1,17 @@
 package ru.practicum.shareit.item.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ru.practicum.shareit.booking.dto.BookingDtoForItem;
 import ru.practicum.shareit.item.comment.CommentDto;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+/**
+ * DTO модель вещей c бронированиями
+ */
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ItemDtoWithBooking {

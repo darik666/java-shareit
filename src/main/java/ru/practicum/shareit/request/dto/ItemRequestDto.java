@@ -1,8 +1,6 @@
 package ru.practicum.shareit.request.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.user.model.User;
 
@@ -10,7 +8,11 @@ import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Data
+/**
+ * DTO модель запроса вещей
+ */
+@Getter
+@Setter
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class ItemRequestDto {

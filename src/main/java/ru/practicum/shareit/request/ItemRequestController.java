@@ -11,7 +11,7 @@ import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 /**
- * TODO Sprint add-item-requests.
+ * Контроллер запроса вещей
  */
 @RestController
 @RequestMapping(path = "/requests")
@@ -19,6 +19,9 @@ import java.util.List;
 public class ItemRequestController {
     private final ItemRequestService itemRequestService;
 
+    /**
+     * Создание запроса вещи
+     */
     @PostMapping
     public ItemRequestDto postItemRequest(@Valid @RequestBody ItemRequestDto itemRequestDto,
                                           @RequestHeader(value = "X-Sharer-User-Id",
@@ -26,18 +29,27 @@ public class ItemRequestController {
         return itemRequestService.postItemRequest(itemRequestDto, requestorId);
     }
 
+    /**
+     * Получение запросов пользователя
+     */
     @GetMapping
     public List<ItemRequestDto> getItemRequestsByRequestor(
             @RequestHeader(value = "X-Sharer-User-Id", required = true) Long requestorId) {
         return itemRequestService.getItemRequestsByRequestor(requestorId);
     }
 
+    /**
+     * Получение запроса по id
+     */
     @GetMapping("/{requestId}")
     public ItemRequestDto getItemRequestById(@PathVariable Long requestId,
             @RequestHeader(value = "X-Sharer-User-Id", required = true) Long requestorId) {
         return itemRequestService.getItemRequestById(requestId, requestorId);
     }
 
+    /**
+     * Получение запросов вещей
+     */
     @GetMapping("/all")
     public List<ItemRequestDto> getItemRequests(@PositiveOrZero @RequestParam(value = "from", required = false) Long from,
                                                 @Positive @RequestParam(value = "size", required = false) Long size,

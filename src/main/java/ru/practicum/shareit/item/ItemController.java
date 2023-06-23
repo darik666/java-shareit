@@ -9,6 +9,7 @@ import ru.practicum.shareit.item.dto.ItemDtoWithBooking;
 import ru.practicum.shareit.item.service.ItemService;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 /**
@@ -26,8 +27,8 @@ public class ItemController {
     @GetMapping
     public List<ItemDtoWithBooking> getItems(
             @RequestHeader(value = "X-Sharer-User-Id", required = true) Long ownerId,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @Positive @RequestParam(defaultValue = "0") int page,
+            @Positive @RequestParam(defaultValue = "10") int size) {
         return itemService.getItems(ownerId, page, size);
     }
 
@@ -75,8 +76,8 @@ public class ItemController {
     @GetMapping("/search")
     public List<ItemDto> searchItems(
             @RequestParam(required = true) String text,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @Positive @RequestParam(defaultValue = "0") int page,
+            @Positive @RequestParam(defaultValue = "10") int size) {
         return itemService.searchItems(text, page, size);
     }
 

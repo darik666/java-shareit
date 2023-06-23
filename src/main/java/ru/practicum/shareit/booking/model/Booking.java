@@ -12,7 +12,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
- * Класс бронирований
+ * Модель бронирований
  */
 @Entity
 @Table(name = "bookings")

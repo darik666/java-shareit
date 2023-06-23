@@ -11,7 +11,7 @@ import ru.practicum.shareit.user.model.User;
 import javax.persistence.*;
 
 /**
- * Модель вещи
+ * Модель вещей
  */
 @Entity
 @Table(name = "items")

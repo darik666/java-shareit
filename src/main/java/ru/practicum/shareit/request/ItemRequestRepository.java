@@ -9,6 +9,9 @@ import ru.practicum.shareit.request.model.ItemRequest;
 
 import java.util.List;
 
+/**
+ * Репозиторий запросов вещей
+ */
 public interface ItemRequestRepository extends JpaRepository<ItemRequest, Long> {
 
     @Query("SELECT ir " +
