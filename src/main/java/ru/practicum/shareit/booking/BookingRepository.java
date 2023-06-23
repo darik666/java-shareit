@@ -1,5 +1,7 @@
 package ru.practicum.shareit.booking;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import ru.practicum.shareit.booking.model.Booking;
@@ -19,83 +21,83 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             "FROM Booking b " +
             "WHERE b.booker.id = ?1 " +
             "ORDER BY b.start DESC")
-    List<Booking> findAllBookings(Long ownerId);
+    Page<Booking> findAllBookings(Long ownerId, Pageable pageable);
 
     @Query("SELECT b " +
             "FROM Booking b " +
             "WHERE b.booker.id = ?1 " +
             "AND b.start <= current_timestamp AND b.end >= current_timestamp " +
             "ORDER BY b.start DESC")
-    List<Booking> findCurrentBookings(Long ownerId);
+    Page<Booking> findCurrentBookings(Long ownerId, Pageable pageable);
 
     @Query("SELECT b " +
             "FROM Booking b " +
             "WHERE b.booker.id = ?1 " +
             "AND b.end <= current_timestamp " +
             "ORDER BY b.start DESC")
-    List<Booking> findPastBookings(Long ownerId);
+    Page<Booking> findPastBookings(Long ownerId, Pageable pageable);
 
     @Query("SELECT b " +
             "FROM Booking b " +
             "WHERE b.booker.id = ?1 " +
             "AND b.start >= current_timestamp " +
             "ORDER BY b.start DESC")
-    List<Booking> findFutureBookings(Long ownerId);
+    Page<Booking> findFutureBookings(Long ownerId, Pageable pageable);
 
     @Query("SELECT b " +
             "FROM Booking b " +
             "WHERE b.booker.id = ?1 " +
             "AND b.status = 'WAITING' " +
             "ORDER BY b.start DESC")
-    List<Booking> findBookingsByWaiting(Long ownerId);
+    Page<Booking> findBookingsByWaiting(Long ownerId, Pageable pageable);
 
     @Query("SELECT b " +
             "FROM Booking b " +
             "WHERE b.booker.id = ?1 " +
             "AND b.status = 'REJECTED' " +
             "ORDER BY b.start DESC")
-    List<Booking> findBookingsByRejected(Long ownerId);
+    Page<Booking> findBookingsByRejected(Long ownerId, Pageable pageable);
 
     @Query("SELECT b " +
             "FROM Booking b " +
             "WHERE b.item.owner.id = ?1 " +
             "ORDER BY b.start DESC")
-    List<Booking> findOwnerAllBookings(Long ownerId);
+    Page<Booking> findOwnerAllBookings(Long ownerId, Pageable pageable);
 
     @Query("SELECT b " +
             "FROM Booking b " +
             "WHERE b.item.owner.id = ?1 " +
             "AND b.start <= current_timestamp AND b.end >= current_timestamp " +
             "ORDER BY b.start DESC")
-    List<Booking> findOwnerCurrentBookings(Long ownerId);
+    Page<Booking> findOwnerCurrentBookings(Long ownerId, Pageable pageable);
 
     @Query("SELECT b " +
             "FROM Booking b " +
             "WHERE b.item.owner.id = ?1 " +
             "AND b.end <= current_timestamp " +
             "ORDER BY b.start DESC")
-    List<Booking> findOwnerPastBookings(Long ownerId);
+    Page<Booking> findOwnerPastBookings(Long ownerId, Pageable pageable);
 
     @Query("SELECT b " +
             "FROM Booking b " +
             "WHERE b.item.owner.id = ?1 " +
             "AND b.start >= current_timestamp " +
             "ORDER BY b.start DESC")
-    List<Booking> findOwnerFutureBookings(Long ownerId);
+    Page<Booking> findOwnerFutureBookings(Long ownerId, Pageable pageable);
 
     @Query("SELECT b " +
             "FROM Booking b " +
             "WHERE b.item.owner.id = ?1 " +
             "AND b.status = 'WAITING' " +
             "ORDER BY b.start DESC")
-    List<Booking> findOwnerBookingsByWaiting(Long ownerId);
+    Page<Booking> findOwnerBookingsByWaiting(Long ownerId, Pageable pageable);
 
     @Query("SELECT b " +
             "FROM Booking b " +
             "WHERE b.item.owner.id = ?1 " +
             "AND b.status = 'REJECTED' " +
             "ORDER BY b.start DESC")
-    List<Booking> findOwnerBookingsByRejected(Long ownerId);
+    Page<Booking> findOwnerBookingsByRejected(Long ownerId, Pageable pageable);
 
     @Query("SELECT b " +
             "FROM Booking b " +

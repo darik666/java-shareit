@@ -1,4 +1,4 @@
-package ru.practicum.shareit.booking;
+package ru.practicum.shareit.booking.service;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -41,7 +41,7 @@ public class BookingMapper {
 
     public static BookingShortDto toBookingShortDto(Booking booking) {
         BookingShortDto bookingShortDto = new BookingShortDto();
-        bookingShortDto.setId(Math.toIntExact(booking.getId()));
+        bookingShortDto.setId(booking.getId());
         bookingShortDto.setItem(booking.getItem());
         bookingShortDto.setBooker(booking.getBooker());
         bookingShortDto.setStatus(booking.getStatus());

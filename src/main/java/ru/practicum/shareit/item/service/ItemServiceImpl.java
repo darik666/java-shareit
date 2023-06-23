@@ -2,18 +2,22 @@ package ru.practicum.shareit.item.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.shareit.booking.model.Booking;
-import ru.practicum.shareit.booking.dto.BookingDtoForItem;
 import ru.practicum.shareit.booking.BookingRepository;
-import ru.practicum.shareit.item.ItemMapper;
+import ru.practicum.shareit.booking.dto.BookingDtoForItem;
+import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.item.ItemRepository;
 import ru.practicum.shareit.item.comment.*;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemDtoWithBooking;
 import ru.practicum.shareit.item.exception.ItemNotFoundException;
 import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.request.ItemRequestRepository;
 import ru.practicum.shareit.user.UserRepository;
 import ru.practicum.shareit.user.exception.UserNotFoundException;
 import ru.practicum.shareit.user.model.User;
@@ -34,15 +38,17 @@ public class ItemServiceImpl implements ItemService {
     private final UserRepository userRepository;
     private final BookingRepository bookingRepository;
     private final CommentRepository commentRepository;
+    private final ItemRequestRepository itemRequestRepository;
 
     /**
      * Получение вещей
      */
     @Override
-    public List<ItemDtoWithBooking> getItems(Long ownerId) {
-        List<Item> items = itemRepository.findByOwnerId(ownerId);
+    public List<ItemDtoWithBooking> getItems(Long ownerId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Item> itemPage = itemRepository.findByOwnerId(ownerId, pageable);
         List<ItemDtoWithBooking> itemDtos = new ArrayList<>();
-        for (Item item : items) {
+        for (Item item : itemPage.getContent()) {
             itemDtos.add(putBookings(item, ownerId));
         }
         log.debug("Получение списка вещей: " + itemDtos);
@@ -54,21 +60,17 @@ public class ItemServiceImpl implements ItemService {
      */
     public ItemDtoWithBooking putBookings(Item item, Long ownerId) {
         ItemDtoWithBooking itemDto = ItemMapper.toItemDtoWithBooking(item);
-
         List<Booking> lastBook = bookingRepository
                 .findLastBookingForItem(item.getId(), ownerId);
         List<Booking> nextBook = bookingRepository
                 .findNextBookingForItem(item.getId(), ownerId);
-
         log.debug("Добавление бронирований к вещи, lastBook: " + lastBook +
                 " и nextBook" + nextBook);
-
         if (!lastBook.isEmpty()) {
             BookingDtoForItem lastBooking = new BookingDtoForItem(
                     lastBook.get(0).getId(), lastBook.get(0).getBooker().getId());
             itemDto.setLastBooking(lastBooking);
         }
-
         if (!nextBook.isEmpty()) {
             BookingDtoForItem nextBooking = new BookingDtoForItem(
                     nextBook.get(0).getId(), nextBook.get(0).getBooker().getId());
@@ -102,7 +104,11 @@ public class ItemServiceImpl implements ItemService {
         Item item = ItemMapper.toItem(itemDto);
         item.setOwner(userRepository.findById(ownerId).get());
         log.debug("Сохранение вещи: " + item);
-        return ItemMapper.toItemDto(itemRepository.save(item));
+        item = itemRepository.save(item);
+        if (itemDto.getRequestId() != null) {
+            item.setRequest(itemRequestRepository.getReferenceById(itemDto.getRequestId()));
+        }
+        return ItemMapper.toItemDto(item);
     }
 
     /**
@@ -127,7 +133,9 @@ public class ItemServiceImpl implements ItemService {
         if (itemDto.getAvailable() != null) {
             existingItem.setAvailable(itemDto.getAvailable());
         }
-
+        if (itemDto.getRequestId() != null) {
+            existingItem.setRequest(itemRequestRepository.getReferenceById(itemDto.getId()));
+        }
         Item updatedItem = itemRepository.save(existingItem);
         log.debug("Обновление вещи " + updatedItem);
         return ItemMapper.toItemDto(updatedItem);
@@ -147,16 +155,18 @@ public class ItemServiceImpl implements ItemService {
      * Поиск вещей
      */
     @Override
-    public List<ItemDto> searchItems(String text) {
+    public List<ItemDto> searchItems(String text, int page, int size) {
         if (text.isBlank()) {
             return Collections.emptyList();
         }
         log.debug("Поиск вещи по тексту: " + text);
-        List<Item> items = itemRepository
-                .searchByText(text.toLowerCase());
-        return items.stream()
-                .map(item -> ItemMapper.toItemDto(item))
-                .collect(Collectors.toList());
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by("name").ascending());
+        Page<Item> itemPage = itemRepository.searchByText(text.toLowerCase(), pageable);
+
+        List<ItemDto> itemDtos = itemPage.map(ItemMapper::toItemDto).getContent();
+
+        return itemDtos;
     }
 
     /**
@@ -187,32 +197,17 @@ public class ItemServiceImpl implements ItemService {
     /**
      * Поиск по комментариям
      */
-    @Override
     public List<CommentDto> searchComments(Long itemId, Long authorId, String text) {
-        List<Comment> comments = new ArrayList<>();
-
+        Set<Comment> comments = new HashSet<>();
         if (itemId != null) {
-            comments = commentRepository.findByItemId(itemId);
+            comments.addAll(commentRepository.findByItemId(itemId));
         }
-
         if (authorId != null) {
-            List<Comment> authorComments = commentRepository.findByAuthorId(authorId);
-            if (comments.isEmpty()) {
-                comments = authorComments;
-            } else {
-                comments.retainAll(authorComments);
-            }
+            comments.addAll(commentRepository.findByAuthorId(authorId));
         }
-
         if (text != null) {
-            List<Comment> textComments = commentRepository.findByTextContainingIgnoreCase(text);
-            if (comments.isEmpty()) {
-                comments = textComments;
-            } else {
-                comments.retainAll(textComments);
-            }
+            comments.addAll(commentRepository.findByTextContainingIgnoreCase(text));
         }
-
         return comments.stream()
                 .map(comment -> CommentMapper.toCommentDto(comment))
                 .collect(Collectors.toList());

@@ -11,7 +11,7 @@ import java.util.List;
  * Интерфейс сервисного класса вещей
  */
 public interface ItemService {
-    List<ItemDtoWithBooking> getItems(Long ownerId);
+    List<ItemDtoWithBooking> getItems(Long ownerId, int page, int size);
 
     ItemDtoWithBooking getItemById(Long itemId, Long ownerId);
 
@@ -21,7 +21,7 @@ public interface ItemService {
 
     void deleteItem(Long id);
 
-    List<ItemDto> searchItems(String text);
+    List<ItemDto> searchItems(String text, int page, int size);
 
     CommentDto postComment(Long itemId, Comment comment, Long ownerId);
 

@@ -2,8 +2,13 @@ package ru.practicum.shareit.booking.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import ru.practicum.shareit.booking.*;
+import ru.practicum.shareit.booking.BookingRepository;
+import ru.practicum.shareit.booking.Status;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.BookingResponseDto;
 import ru.practicum.shareit.booking.exception.BookingNotFoundException;
@@ -19,7 +24,6 @@ import ru.practicum.shareit.user.model.User;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static ru.practicum.shareit.booking.Status.*;
 
@@ -56,62 +60,73 @@ public class BookingServiceImpl implements BookingService {
      * Получение всех бронирований
      */
     @Override
-    public List<BookingResponseDto> getAllBookings(Long ownerId, String state) {
-        userRepository.findById(ownerId)
-                .orElseThrow(() -> new UserNotFoundException("Пользователь не найден"));
+    public List<BookingResponseDto> getAllBookings(Long ownerId, String state, Integer page, Integer size) {
+        findUser(ownerId);
         log.debug("Получение бронирований по id владельца и состоянию: " + state);
+        int adjustedPage = (page + size - 1) / size;
+        Page<Booking> bookingPage;
+        Pageable pageable = PageRequest.of(adjustedPage, size, Sort.by("id").ascending());
         switch (state) {
-            case "ALL": return bookingRepository.findAllBookings(ownerId).stream()
-                    .map(booking -> BookingMapper.toBookingResponseDto(booking))
-                    .collect(Collectors.toList());
-            case "CURRENT": return bookingRepository.findCurrentBookings(ownerId).stream()
-                    .map(booking -> BookingMapper.toBookingResponseDto(booking))
-                    .collect(Collectors.toList());
-            case "PAST": return bookingRepository.findPastBookings(ownerId).stream()
-                    .map(booking -> BookingMapper.toBookingResponseDto(booking))
-                    .collect(Collectors.toList());
-            case "FUTURE": return bookingRepository.findFutureBookings(ownerId).stream()
-                    .map(booking -> BookingMapper.toBookingResponseDto(booking))
-                    .collect(Collectors.toList());
-            case "WAITING": return bookingRepository.findBookingsByWaiting(ownerId).stream()
-                    .map(booking -> BookingMapper.toBookingResponseDto(booking))
-                    .collect(Collectors.toList());
-            case "REJECTED": return bookingRepository.findBookingsByRejected(ownerId).stream()
-                    .map(booking -> BookingMapper.toBookingResponseDto(booking))
-                    .collect(Collectors.toList());
-            default: throw new UnsupportedStatusException("Unknown state: " + state);
+            case "ALL":
+                bookingPage = bookingRepository.findAllBookings(ownerId, pageable);
+                break;
+            case "CURRENT":
+                bookingPage = bookingRepository.findCurrentBookings(ownerId, pageable);
+                break;
+            case "PAST":
+                bookingPage = bookingRepository.findPastBookings(ownerId, pageable);
+                break;
+            case "FUTURE":
+                bookingPage = bookingRepository.findFutureBookings(ownerId, pageable);
+                break;
+            case "WAITING":
+                bookingPage = bookingRepository.findBookingsByWaiting(ownerId, pageable);
+                break;
+            case "REJECTED":
+                bookingPage = bookingRepository.findBookingsByRejected(ownerId, pageable);
+                break;
+            default:
+                throw new UnsupportedStatusException("Unknown state: " + state);
         }
+        List<BookingResponseDto> bookingDtos = bookingPage.map(BookingMapper::toBookingResponseDto).getContent();
+        return bookingDtos;
     }
 
     /**
      * Получение всех бронирований владельца
      */
     @Override
-    public List<BookingResponseDto> getAllOwnerBookings(Long ownerId, String state) {
-        userRepository.findById(ownerId)
-                .orElseThrow(() -> new UserNotFoundException("Пользователь не найден"));
+    public List<BookingResponseDto> getAllOwnerBookings(Long ownerId, String state, Integer page, Integer size) {
+        findUser(ownerId);
         log.debug("Получение бронирований по id владельца и состоянию: " + state);
+        int adjustedPage = (page + size - 1) / size;
+        Pageable pageable = PageRequest.of(adjustedPage, size, Sort.by("id").ascending());
+        Page<Booking> bookingPage;
+
         switch (state) {
-            case "ALL": return bookingRepository.findOwnerAllBookings(ownerId).stream()
-                    .map(booking -> BookingMapper.toBookingResponseDto(booking))
-                    .collect(Collectors.toList());
-            case "CURRENT": return bookingRepository.findOwnerCurrentBookings(ownerId).stream()
-                    .map(booking -> BookingMapper.toBookingResponseDto(booking))
-                    .collect(Collectors.toList());
-            case "PAST": return bookingRepository.findOwnerPastBookings(ownerId).stream()
-                    .map(booking -> BookingMapper.toBookingResponseDto(booking))
-                    .collect(Collectors.toList());
-            case "FUTURE": return bookingRepository.findOwnerFutureBookings(ownerId).stream()
-                    .map(booking -> BookingMapper.toBookingResponseDto(booking))
-                    .collect(Collectors.toList());
-            case "WAITING": return bookingRepository.findOwnerBookingsByWaiting(ownerId).stream()
-                    .map(booking -> BookingMapper.toBookingResponseDto(booking))
-                    .collect(Collectors.toList());
-            case "REJECTED": return bookingRepository.findOwnerBookingsByRejected(ownerId).stream()
-                    .map(booking -> BookingMapper.toBookingResponseDto(booking))
-                    .collect(Collectors.toList());
-            default: throw new UnsupportedStatusException("Unknown state: " + state);
+            case "ALL":
+                bookingPage = bookingRepository.findOwnerAllBookings(ownerId, pageable);
+                break;
+            case "CURRENT":
+                bookingPage = bookingRepository.findOwnerCurrentBookings(ownerId, pageable);
+                break;
+            case "PAST":
+                bookingPage = bookingRepository.findOwnerPastBookings(ownerId, pageable);
+                break;
+            case "FUTURE":
+                bookingPage = bookingRepository.findOwnerFutureBookings(ownerId, pageable);
+                break;
+            case "WAITING":
+                bookingPage = bookingRepository.findOwnerBookingsByWaiting(ownerId, pageable);
+                break;
+            case "REJECTED":
+                bookingPage = bookingRepository.findOwnerBookingsByRejected(ownerId, pageable);
+                break;
+            default:
+                throw new UnsupportedStatusException("Unknown state: " + state);
         }
+        List<BookingResponseDto> bookingDtos = bookingPage.map(BookingMapper::toBookingResponseDto).getContent();
+        return bookingDtos;
     }
 
     /**
@@ -120,8 +135,7 @@ public class BookingServiceImpl implements BookingService {
     @Transactional
     @Override
     public BookingResponseDto postBooking(BookingDto bookingDto, Long ownerId) {
-        User booker = userRepository.findById(ownerId).orElseThrow(
-                () -> new UserNotFoundException("Пользователь не найден"));
+        User booker = findUser(ownerId);
         Item item = itemRepository.findById(bookingDto.getItemId()).orElseThrow(
                 () -> new ItemNotFoundException("Вещь не найдена"));
         if (!item.getAvailable()) {
@@ -141,8 +155,9 @@ public class BookingServiceImpl implements BookingService {
         booking.setBooker(booker);
         booking.setItem(item);
         booking.setStatus(WAITING);
+        booking = bookingRepository.save(booking);
         log.debug("Сохранение бронирования " + booking);
-        return BookingMapper.toBookingResponseDto(bookingRepository.save(booking));
+        return BookingMapper.toBookingResponseDto(booking);
     }
 
     /**
@@ -151,8 +166,7 @@ public class BookingServiceImpl implements BookingService {
     @Transactional
     @Override
     public BookingResponseDto approveBooking(Long ownerId, Long bookingId, Boolean approved) {
-        userRepository.findById(ownerId)
-                .orElseThrow(() -> new UserNotFoundException("Пользователь не найден"));
+        findUser(ownerId);
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new BookingNotFoundException("Бронирование не найдено"));
         Status status = booking.getStatus();
@@ -173,5 +187,10 @@ public class BookingServiceImpl implements BookingService {
             booking.setStatus(REJECTED);
         }
         return BookingMapper.toBookingResponseDto(bookingRepository.save(booking));
+    }
+
+    public User findUser(Long ownerId) {
+        return userRepository.findById(ownerId)
+                .orElseThrow(() -> new UserNotFoundException("Пользователь не найден"));
     }
 }

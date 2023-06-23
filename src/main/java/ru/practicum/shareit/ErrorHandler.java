@@ -11,6 +11,7 @@ import ru.practicum.shareit.item.comment.DeniedCommentingException;
 import ru.practicum.shareit.item.exception.ItemNotFoundException;
 import ru.practicum.shareit.item.exception.UnauthorizedAccessException;
 import ru.practicum.shareit.item.exception.UnsupportedStatusException;
+import ru.practicum.shareit.request.exception.ItemRequestNotFoundException;
 import ru.practicum.shareit.user.exception.UserNotFoundException;
 
 import javax.persistence.EntityNotFoundException;
@@ -51,9 +52,10 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String methodArgumentNotValidException(final MethodArgumentNotValidException e) {
+    public ErrorResponse methodArgumentNotValidException(final MethodArgumentNotValidException e) {
         log.debug("Получен статус 400 Bad Request {}", e.getMessage(), e);
-        return e.getMessage();
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
+        return errorResponse;
     }
 
     @ExceptionHandler
@@ -102,6 +104,13 @@ public class ErrorHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String unHandledException(final Exception e) {
         log.debug("Получен статус 500 Internal Server Error {}", e.getMessage(), e);
+        return e.getMessage();
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String itemRequestNotFoundException(final ItemRequestNotFoundException e) {
+        log.debug("Получен статус 404 Not Found {}", e.getMessage(), e);
         return e.getMessage();
     }
 }
