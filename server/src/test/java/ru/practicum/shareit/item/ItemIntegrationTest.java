@@ -15,14 +15,14 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class ItemIntegrationTest {
 
     @Autowired
-    private ItemService itemService;
+    private UserService userService;
 
     @Autowired
-    private UserService userService;
+    private ItemService itemService;
 
     @Test
     void getItemsTest() {
