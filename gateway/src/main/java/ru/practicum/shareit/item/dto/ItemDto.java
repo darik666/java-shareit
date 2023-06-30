@@ -1,27 +1,31 @@
 package ru.practicum.shareit.item.dto;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- * DTO модель вещи.
+ * DTO модель вещей
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ItemDto {
 
     private Long id;
 
-    @NotEmpty
-    @Size(max = 50)
+    @NotEmpty(message = "must not be empty")
+    @Size(max = 50, message = "size must be between 0 and 50")
     private String name;
 
-    @NotEmpty
-    @Size(max = 200)
+    @NotEmpty(message = "must not be empty")
+    @Size(max = 200, message = "size must be between 0 and 200")
     private String description;
 
-    @NotNull
+    @NotNull(message = "must not be null")
     private Boolean available;
+
+    private Long requestId;
 }

@@ -1,33 +1,24 @@
 package ru.practicum.shareit.item.dto;
 
-import lombok.Data;
+import lombok.*;
 import ru.practicum.shareit.booking.dto.BookingDtoForItem;
 import ru.practicum.shareit.item.comment.CommentDto;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DTO модель вещей c бронированиями
+ */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ItemDtoWithBooking {
-
     private Long id;
-
-    @NotEmpty
-    @Size(max = 50)
     private String name;
-
-    @NotEmpty
-    @Size(max = 200)
     private String description;
-
-    @NotNull
     private Boolean available;
-
     private BookingDtoForItem lastBooking;
     private BookingDtoForItem nextBooking;
-
     private List<CommentDto> comments = new ArrayList();
 }
