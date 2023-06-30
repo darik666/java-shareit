@@ -5,9 +5,6 @@ import org.junit.jupiter.api.Test;
 import ru.practicum.shareit.booking.dto.BookingDtoForItem;
 import ru.practicum.shareit.user.model.User;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 public class BookingDtoForItemTest {
 
     @Test

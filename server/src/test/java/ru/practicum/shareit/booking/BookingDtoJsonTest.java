@@ -15,8 +15,6 @@ import javax.validation.ValidatorFactory;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 @JsonTest
 public class BookingDtoJsonTest {
 

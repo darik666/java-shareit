@@ -2,7 +2,6 @@ package ru.practicum.shareit.booking;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.practicum.shareit.booking.Status;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.BookingResponseDto;
 import ru.practicum.shareit.booking.dto.BookingShortDto;
@@ -14,8 +13,6 @@ import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class BookingMapperTest {
 
