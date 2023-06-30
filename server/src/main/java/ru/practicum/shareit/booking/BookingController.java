@@ -54,7 +54,7 @@ public class BookingController {
     }
 
     /**
-     * Подтверждение бронирования
+     * Подтверждение бронирований
      */
     @PatchMapping("/{bookingId}")
     public BookingResponseDto approveBooking(@RequestHeader(value = "X-Sharer-User-Id", required = true) Long ownerId,
