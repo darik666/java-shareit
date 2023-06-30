@@ -26,9 +26,9 @@ public class ItemIntegrationTest {
 
     @Test
     void getItemsTest() {
-        UserDto userDto = new UserDto(1L, "TestUser", "testUser@test.com");
+        UserDto userDto = new UserDto(1L, "TestUser1", "testUser@test.com");
         userService.postUser(userDto);
-        ItemDto itemDto = new ItemDto(1L, "ItemName", "ItemDesc", true, null);
+        ItemDto itemDto = new ItemDto(1L, "Item1Name", "ItemDesc", true, null);
         itemService.postItem(itemDto, 1L);
 
         List<ItemDtoWithBooking> items = itemService.getItems(1L, 0, 10);
