@@ -45,7 +45,7 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     public List<ItemDtoWithBooking> getItems(Long ownerId, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
         Page<Item> itemPage = itemRepository.findByOwnerId(ownerId, pageable);
         List<ItemDtoWithBooking> itemDtos = new ArrayList<>();
         for (Item item : itemPage.getContent()) {

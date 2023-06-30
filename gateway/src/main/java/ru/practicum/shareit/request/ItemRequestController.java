@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
 
 /**
  * Контроллер запроса вещей
@@ -42,7 +40,8 @@ public class ItemRequestController {
      */
     @GetMapping("/{requestId}")
     public ResponseEntity<Object> getItemRequestById(@PathVariable Long requestId,
-                                                     @RequestHeader(value = "X-Sharer-User-Id", required = true) Long requestorId) {
+                                                     @RequestHeader(value = "X-Sharer-User-Id",
+                                                             required = true) Long requestorId) {
         return itemRequestClient.getItemRequestById(requestId, requestorId);
     }
 
@@ -50,9 +49,10 @@ public class ItemRequestController {
      * Получение запросов вещей
      */
     @GetMapping("/all")
-    public ResponseEntity<Object> getItemRequests(@PositiveOrZero @RequestParam(value = "from", required = false) Long from,
-                                                @Positive @RequestParam(value = "size", required = false) Long size,
-                                                @RequestHeader(value = "X-Sharer-User-Id", required = true) Long requestorId) {
+    public ResponseEntity<Object> getItemRequests(@RequestParam(defaultValue = "0") Long from,
+                                                  @RequestParam(defaultValue = "20") Long size,
+                                                  @RequestHeader(value = "X-Sharer-User-Id",
+                                                          required = true) Long requestorId) {
         return itemRequestClient.getItemRequests(from, size, requestorId);
     }
 }

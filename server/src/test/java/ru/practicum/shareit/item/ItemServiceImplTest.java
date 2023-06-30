@@ -85,7 +85,7 @@ public class ItemServiceImplTest {
     public void getItemsShouldReturnList() {
         int page = 0;
         int size = 10;
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
         List<Item> mockedItems = List.of(item1, item2);
         Page<Item> mockedItemPage = new PageImpl<>(mockedItems, pageable, mockedItems.size());
 
