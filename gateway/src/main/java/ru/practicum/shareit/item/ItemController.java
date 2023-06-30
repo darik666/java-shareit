@@ -16,7 +16,7 @@ import javax.validation.Valid;
 @RequestMapping("/items")
 public class ItemController {
     private final ItemClient itemClient;
-    
+
     /**
      * Получение вещей
      */
@@ -31,7 +31,7 @@ public class ItemController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<Object> getItemById(@PathVariable Long id,
-                                          @RequestHeader(value = "X-Sharer-User-Id", required = true) Long ownerId) {
+                                              @RequestHeader(value = "X-Sharer-User-Id", required = true) Long ownerId) {
         return itemClient.getItemById(id, ownerId);
     }
 
@@ -40,7 +40,7 @@ public class ItemController {
      */
     @PostMapping
     public ResponseEntity<Object> postItem(@Valid @RequestBody ItemDto itemDto,
-                            @RequestHeader(value = "X-Sharer-User-Id", required = true) Long ownerId) {
+                                           @RequestHeader(value = "X-Sharer-User-Id", required = true) Long ownerId) {
         return itemClient.postItem(itemDto, ownerId);
     }
 
@@ -49,8 +49,8 @@ public class ItemController {
      */
     @PatchMapping("/{id}")
     public ResponseEntity<Object> updateItem(@RequestBody ItemDto itemDto,
-                              @PathVariable Long id,
-                              @RequestHeader(value = "X-Sharer-User-Id", required = true) Long ownerId) {
+                                             @PathVariable Long id,
+                                             @RequestHeader(value = "X-Sharer-User-Id", required = true) Long ownerId) {
         return itemClient.updateItem(itemDto, ownerId, id);
     }
 
@@ -75,8 +75,8 @@ public class ItemController {
      */
     @PostMapping("/{itemId}/comment")
     public ResponseEntity<Object> postComment(@PathVariable Long itemId,
-                                  @Valid @RequestBody Comment comment,
-                                  @RequestHeader(value = "X-Sharer-User-Id", required = true) Long ownerId) {
+                                              @Valid @RequestBody Comment comment,
+                                              @RequestHeader(value = "X-Sharer-User-Id", required = true) Long ownerId) {
         return itemClient.postComment(itemId, comment, ownerId);
     }
 
