@@ -92,6 +92,8 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleUnsupportedStatusException(UnsupportedStatusException ex) {
+        log.debug("Проверяй здесь: ");
+        ex.printStackTrace();
         ErrorResponse errorResponse = new ErrorResponse(ex.getMessage());
         return errorResponse;
     }
