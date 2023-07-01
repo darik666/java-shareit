@@ -101,7 +101,6 @@ public class BookingServiceImpl implements BookingService {
         int adjustedPage = (page + size - 1) / size;
         Pageable pageable = PageRequest.of(adjustedPage, size, Sort.by("id").ascending());
         Page<Booking> bookingPage;
-
         switch (state) {
             case "ALL":
                 bookingPage = bookingRepository.findOwnerAllBookings(ownerId, pageable);
