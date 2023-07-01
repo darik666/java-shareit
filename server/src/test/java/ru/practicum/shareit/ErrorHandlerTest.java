@@ -16,7 +16,9 @@ import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
+/**
+ * Тесты обработчика ошибок
+ */
 @ExtendWith(MockitoExtension.class)
 public class ErrorHandlerTest {
 
