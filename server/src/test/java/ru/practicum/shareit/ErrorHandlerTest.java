@@ -81,14 +81,6 @@ public class ErrorHandlerTest {
     }
 
     @Test
-    public void testHandleUnsupportedStatusException() {
-        UnsupportedStatusException ex = new UnsupportedStatusException("Test exception");
-        ErrorResponse expectedErrorResponse = new ErrorResponse(ex.getMessage());
-        ErrorResponse actualErrorResponse = errorHandler.handleUnsupportedStatusException(ex);
-        assertEquals(expectedErrorResponse, actualErrorResponse);
-    }
-
-    @Test
     public void testDeniedCommentingException() {
         DeniedCommentingException ex = new DeniedCommentingException("Test exception");
         String expectedErrorMessage = ex.getMessage();

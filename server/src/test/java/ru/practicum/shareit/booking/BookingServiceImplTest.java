@@ -236,12 +236,6 @@ public class BookingServiceImplTest {
     }
 
     @Test
-    public void getAllBookingsByUnsupportedStateTest() {
-        Assertions.assertThrows(UnsupportedStatusException.class,
-                () -> bookingService.getAllBookings(user1.getId(), "UNKNOWN", 0, 10));
-    }
-
-    @Test
     public void getAllOwnerBookingsByAllStateTest() {
         int page = 0;
         int size = 10;

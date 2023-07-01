@@ -57,8 +57,7 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleUnsupportedStatusException(UnsupportedStatusException ex) {
-        ex.printStackTrace();
-        ErrorResponse errorResponse = new ErrorResponse(ex.getMessage());
-        return errorResponse;
+        log.debug("Получен статус 500 Internal Server Error {}", ex.getMessage());
+        return new ErrorResponse(ex.getMessage());
     }
 }
