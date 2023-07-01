@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.validation.ConstraintViolationException;
 import java.util.NoSuchElementException;
 
+/**
+ * Обработчик исключений
+ */
 @Slf4j
 @RestControllerAdvice
 public class ErrorHandler {

@@ -18,6 +18,9 @@ import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
 import java.util.NoSuchElementException;
 
+/**
+ * Обработчик исключений
+ */
 @Slf4j
 @RestControllerAdvice
 public class ErrorHandler {
