@@ -32,7 +32,7 @@ public class BookingController {
 			@PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
 			@Positive @RequestParam(defaultValue = "10") Integer size) {
 		BookingState.from(state)
-				.orElseThrow(() -> new IllegalArgumentException("Unknown state: " + state));
+				.orElseThrow(() -> new UnsupportedStatusException("Unknown state: " + state));
 		log.info("Get booking with state {}, userId={}, from={}, size={}", state, ownerId, from, size);
 		return bookingClient.getBookings(ownerId, BookingState.from(state).get(), from, size);
 	}
