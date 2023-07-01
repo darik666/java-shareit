@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.BookingResponseDto;
 import ru.practicum.shareit.booking.service.BookingService;
+import ru.practicum.shareit.item.exception.UnsupportedStatusException;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
@@ -32,6 +33,7 @@ public class BookingController {
             @RequestParam(defaultValue = "ALL") String state,
             @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
             @Positive @RequestParam(defaultValue = "10") Integer size) {
+        State.from(state).orElseThrow(() -> new UnsupportedStatusException("Unknown state: " + state));
         return bookingService.getAllBookings(ownerId, state, from, size);
     }
 
@@ -72,6 +74,7 @@ public class BookingController {
             @RequestParam(defaultValue = "ALL") String state,
             @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
             @Positive @RequestParam(defaultValue = "10") Integer size) {
+        State.from(state).orElseThrow(() -> new UnsupportedStatusException("Unknown state: " + state));
         return bookingService.getAllOwnerBookings(ownerId, state, from, size);
     }
 }
