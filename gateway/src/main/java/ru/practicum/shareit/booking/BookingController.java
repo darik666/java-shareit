@@ -31,10 +31,10 @@ public class BookingController {
 			@RequestParam(defaultValue = "ALL") String state,
 			@PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
 			@Positive @RequestParam(defaultValue = "10") Integer size) {
-		BookingState state1 = BookingState.from(state)
+		BookingState.from(state)
 				.orElseThrow(() -> new IllegalArgumentException("Unknown state: " + state));
 		log.info("Get booking with state {}, userId={}, from={}, size={}", state, ownerId, from, size);
-		return bookingClient.getBookings(ownerId, state1, from, size);
+		return bookingClient.getBookings(ownerId, BookingState.from(state).get(), from, size);
 	}
 
 	/**
