@@ -237,8 +237,6 @@ public class BookingServiceImplTest {
 
     @Test
     public void getAllBookingsByUnsupportedStateTest() {
-        Mockito.when(userRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.ofNullable(user1));
-
         Assertions.assertThrows(UnsupportedStatusException.class,
                 () -> bookingService.getAllBookings(user1.getId(), "UNKNOWN", 0, 10));
     }
@@ -377,8 +375,6 @@ public class BookingServiceImplTest {
 
     @Test
     public void getAllOwnerBookingsByUnsupportedStateTest() {
-        Mockito.when(userRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.ofNullable(user1));
-
         Assertions.assertThrows(UnsupportedStatusException.class,
                 () -> bookingService.getAllOwnerBookings(user1.getId(), "UNKNOWN", 0, 10));
     }

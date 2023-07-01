@@ -61,7 +61,6 @@ public class BookingServiceImpl implements BookingService {
      */
     @Override
     public List<BookingResponseDto> getAllBookings(Long ownerId, String state, Integer page, Integer size) {
-        findUser(ownerId);
         log.debug("Получение бронирований по id владельца и состоянию: " + state);
         int adjustedPage = (page + size - 1) / size;
         Page<Booking> bookingPage;
@@ -88,6 +87,7 @@ public class BookingServiceImpl implements BookingService {
             default:
                 throw new UnsupportedStatusException("Unknown state: " + state);
         }
+        findUser(ownerId);
         List<BookingResponseDto> bookingDtos = bookingPage.map(BookingMapper::toBookingResponseDto).getContent();
         return bookingDtos;
     }
@@ -97,7 +97,6 @@ public class BookingServiceImpl implements BookingService {
      */
     @Override
     public List<BookingResponseDto> getAllOwnerBookings(Long ownerId, String state, Integer page, Integer size) {
-        findUser(ownerId);
         log.debug("Получение бронирований по id владельца и состоянию: " + state);
         int adjustedPage = (page + size - 1) / size;
         Pageable pageable = PageRequest.of(adjustedPage, size, Sort.by("id").ascending());
@@ -125,6 +124,7 @@ public class BookingServiceImpl implements BookingService {
             default:
                 throw new UnsupportedStatusException("Unknown state: " + state);
         }
+        findUser(ownerId);
         List<BookingResponseDto> bookingDtos = bookingPage.map(BookingMapper::toBookingResponseDto).getContent();
         return bookingDtos;
     }
