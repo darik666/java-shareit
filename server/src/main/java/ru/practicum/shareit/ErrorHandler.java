@@ -10,7 +10,6 @@ import ru.practicum.shareit.booking.exception.BookingNotFoundException;
 import ru.practicum.shareit.item.comment.DeniedCommentingException;
 import ru.practicum.shareit.item.exception.ItemNotFoundException;
 import ru.practicum.shareit.item.exception.UnauthorizedAccessException;
-import ru.practicum.shareit.item.exception.UnsupportedStatusException;
 import ru.practicum.shareit.request.exception.ItemRequestNotFoundException;
 import ru.practicum.shareit.user.exception.UserNotFoundException;
 
