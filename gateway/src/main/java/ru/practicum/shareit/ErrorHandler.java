@@ -19,6 +19,13 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleIllegalArgumentException(final IllegalArgumentException e) {
+        log.debug("Получен статус 400 Bad Request {}", e.getMessage(), e);
+        return e.getMessage();
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String validationConstraintException(final ConstraintViolationException e) {
         log.debug("Получен статус 400 Bad Request {}", e.getMessage(), e);
         return e.getMessage();
