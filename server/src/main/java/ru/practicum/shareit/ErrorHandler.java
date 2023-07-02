@@ -24,6 +24,13 @@ import java.util.NoSuchElementException;
 public class ErrorHandler {
 
     @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleIllegalArgumentException(final IllegalArgumentException e) {
+        log.debug("Получен статус 400 Bad Request {}", e.getMessage(), e);
+        return e.getMessage();
+    }
+
+    @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleUserNotFound(final UserNotFoundException e) {
         log.debug("Получен статус 404 Not Found {}", e.getMessage(), e);
