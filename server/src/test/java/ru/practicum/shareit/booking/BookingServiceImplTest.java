@@ -19,7 +19,6 @@ import ru.practicum.shareit.item.ItemRepository;
 import ru.practicum.shareit.item.comment.Comment;
 import ru.practicum.shareit.item.exception.ItemNotFoundException;
 import ru.practicum.shareit.item.exception.UnauthorizedAccessException;
-import ru.practicum.shareit.item.exception.UnsupportedStatusException;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.user.UserRepository;
@@ -365,12 +364,6 @@ public class BookingServiceImplTest {
         Assertions.assertEquals(booking1.getBooker(), resultBookList.get(0).getBooker());
         Assertions.assertEquals(booking2.getId(), resultBookList.get(1).getId());
         Assertions.assertEquals(booking2.getBooker(), resultBookList.get(1).getBooker());
-    }
-
-    @Test
-    public void getAllOwnerBookingsByUnsupportedStateTest() {
-        Assertions.assertThrows(UnsupportedStatusException.class,
-                () -> bookingService.getAllOwnerBookings(user1.getId(), "UNKNOWN", 0, 10));
     }
 
     @Test

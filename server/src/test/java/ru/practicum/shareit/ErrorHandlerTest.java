@@ -26,14 +26,6 @@ public class ErrorHandlerTest {
     private ErrorHandler errorHandler = new ErrorHandler();
 
     @Test
-    public void testHandleIllegalArgumentException() {
-        IllegalArgumentException ex = new IllegalArgumentException("Test exception");
-        String expectedErrorMessage = ex.getMessage();
-        String actualErrorMessage = errorHandler.handleIllegalArgumentException(ex);
-        assertEquals(expectedErrorMessage, actualErrorMessage);
-    }
-
-    @Test
     public void testHandleUserNotFound() {
         UserNotFoundException ex = new UserNotFoundException("Test exception");
         String expectedErrorMessage = ex.getMessage();

@@ -7,6 +7,7 @@ import ru.practicum.shareit.item.comment.Comment;
 import ru.practicum.shareit.item.dto.ItemDto;
 
 import javax.validation.Valid;
+import java.util.Collections;
 
 /**
  * Контроллер вещей
@@ -88,6 +89,9 @@ public class ItemController {
             @RequestParam(required = false) Long itemId,
             @RequestParam(required = false) Long authorId,
             @RequestParam(required = false) String text) {
+        if (text == null || text.trim().isEmpty()) {
+            return ResponseEntity.ok(Collections.emptyList());
+        }
         return itemClient.searchComments(itemId, authorId, text);
     }
 }

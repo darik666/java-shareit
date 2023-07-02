@@ -16,7 +16,6 @@ import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.item.ItemRepository;
 import ru.practicum.shareit.item.exception.ItemNotFoundException;
 import ru.practicum.shareit.item.exception.UnauthorizedAccessException;
-import ru.practicum.shareit.item.exception.UnsupportedStatusException;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.UserRepository;
 import ru.practicum.shareit.user.exception.UserNotFoundException;
@@ -63,7 +62,7 @@ public class BookingServiceImpl implements BookingService {
     public List<BookingResponseDto> getAllBookings(Long ownerId, String state, Integer page, Integer size) {
         log.debug("Получение бронирований по id владельца и состоянию: " + state);
         int adjustedPage = (page + size - 1) / size;
-        Page<Booking> bookingPage;
+        Page<Booking> bookingPage = null;
         Pageable pageable = PageRequest.of(adjustedPage, size, Sort.by("id").ascending());
         switch (state) {
             case "ALL":
@@ -84,8 +83,6 @@ public class BookingServiceImpl implements BookingService {
             case "REJECTED":
                 bookingPage = bookingRepository.findBookingsByRejected(ownerId, pageable);
                 break;
-            default:
-                throw new UnsupportedStatusException("Unknown state: " + state);
         }
         findUser(ownerId);
         List<BookingResponseDto> bookingDtos = bookingPage.map(BookingMapper::toBookingResponseDto).getContent();
@@ -100,7 +97,7 @@ public class BookingServiceImpl implements BookingService {
         log.debug("Получение бронирований по id владельца и состоянию: " + state);
         int adjustedPage = (page + size - 1) / size;
         Pageable pageable = PageRequest.of(adjustedPage, size, Sort.by("id").ascending());
-        Page<Booking> bookingPage;
+        Page<Booking> bookingPage = null;
         switch (state) {
             case "ALL":
                 bookingPage = bookingRepository.findOwnerAllBookings(ownerId, pageable);
@@ -120,8 +117,6 @@ public class BookingServiceImpl implements BookingService {
             case "REJECTED":
                 bookingPage = bookingRepository.findOwnerBookingsByRejected(ownerId, pageable);
                 break;
-            default:
-                throw new UnsupportedStatusException("Unknown state: " + state);
         }
         findUser(ownerId);
         List<BookingResponseDto> bookingDtos = bookingPage.map(BookingMapper::toBookingResponseDto).getContent();

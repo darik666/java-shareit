@@ -27,14 +27,6 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse methodArgumentNotValidException(final MethodArgumentNotValidException e) {
-        log.debug("Получен статус 400 Bad Request {}", e.getMessage(), e);
-        ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
-        return errorResponse;
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String validationConstraintException(final ConstraintViolationException e) {
         log.debug("Получен статус 400 Bad Request {}", e.getMessage(), e);
         return e.getMessage();
