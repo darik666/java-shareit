@@ -15,6 +15,7 @@ import ru.practicum.shareit.request.exception.ItemRequestNotFoundException;
 import ru.practicum.shareit.user.exception.UserNotFoundException;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.NoSuchElementException;
 
 /**
  * Обработчик исключений
@@ -68,16 +69,16 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String bookingNotFoundException(final BookingNotFoundException e) {
+    public String validationNoSuchElementException(final NoSuchElementException e) {
         log.debug("Получен статус 404 Not Found {}", e.getMessage(), e);
         return e.getMessage();
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse handleUnsupportedStatusException(UnsupportedStatusException ex) {
-        log.debug("Получен статус 500 Internal Server Error {}", ex.getMessage());
-        return new ErrorResponse(ex.getMessage());
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String bookingNotFoundException(final BookingNotFoundException e) {
+        log.debug("Получен статус 404 Not Found {}", e.getMessage(), e);
+        return e.getMessage();
     }
 
     @ExceptionHandler
