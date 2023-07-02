@@ -15,8 +15,6 @@ import ru.practicum.shareit.request.exception.ItemRequestNotFoundException;
 import ru.practicum.shareit.user.exception.UserNotFoundException;
 
 import javax.persistence.EntityNotFoundException;
-import javax.validation.ConstraintViolationException;
-import java.util.NoSuchElementException;
 
 /**
  * Обработчик исключений
@@ -52,20 +50,6 @@ public class ErrorHandler {
         log.debug("Получен статус 400 Bad Request {}", e.getMessage(), e);
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
         return errorResponse;
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String validationConstraintException(final ConstraintViolationException e) {
-        log.debug("Получен статус 400 Bad Request {}", e.getMessage(), e);
-        return e.getMessage();
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String validationNoSuchElementException(final NoSuchElementException e) {
-        log.debug("Получен статус 404 Not Found {}", e.getMessage(), e);
-        return e.getMessage();
     }
 
     @ExceptionHandler

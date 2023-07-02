@@ -12,7 +12,6 @@ import ru.practicum.shareit.request.exception.ItemRequestNotFoundException;
 import ru.practicum.shareit.user.exception.UserNotFoundException;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -46,14 +45,6 @@ public class ErrorHandlerTest {
         UnauthorizedAccessException ex = new UnauthorizedAccessException("Test exception");
         String expectedErrorMessage = ex.getMessage();
         String actualErrorMessage = errorHandler.unauthorizedAccessException(ex);
-        assertEquals(expectedErrorMessage, actualErrorMessage);
-    }
-
-    @Test
-    public void testValidationNoSuchElementException() {
-        NoSuchElementException ex = new NoSuchElementException("Test exception");
-        String expectedErrorMessage = ex.getMessage();
-        String actualErrorMessage = errorHandler.validationNoSuchElementException(ex);
         assertEquals(expectedErrorMessage, actualErrorMessage);
     }
 
